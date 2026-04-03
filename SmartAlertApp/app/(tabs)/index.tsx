@@ -6,7 +6,7 @@ export default function Index() {
   return (
     <SafeAreaView style={styles.container}>
       <WebView
-        source={{ uri: 'http://172.20.10.4:5175' }}// ⚠️ CHANGE THIS
+        source={{ uri: 'https://smart-internship-alert.vercel.app' }}// ⚠️ CHANGE THIS
         startInLoadingState={true}
         
         renderLoading={() => (
