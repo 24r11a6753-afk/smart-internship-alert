@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Jsp Form </title>
+    </head>
+    <body>
+        <h2>User Form</h2>
+
+        <form action="resulut.Jsp" method="post">
+            name:<input type ="text" name=""
+        </form>
+    </body>
+</html>
