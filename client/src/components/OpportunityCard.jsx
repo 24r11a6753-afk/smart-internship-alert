@@ -25,7 +25,7 @@ const OpportunityCard = ({ opp, isBookmarked, onBookmarkToggle }) => {
   const handleBookmark = async () => {
     try {
       const token = localStorage.getItem('token');
-      await axios.post(`http://172.20.10.4:5000/api/opportunities/${opp._id}/bookmark`, {}, {
+      await axios.post(`https://smart-internship-alert.onrender.com/api/ai/bookmarks`, {OpportunityId:opp._id}, {
         headers: { Authorization: `Bearer ${token}` }
       });
       onBookmarkToggle(opp._id);

@@ -23,7 +23,7 @@ const Dashboard = () => {
   const fetchOpportunities = async () => {
     try {
       setLoading(true);
-      let queryUrl = `http://172.20.10.4:5000/api/opportunities?`;
+      let queryUrl = `https://smart-internship-alert.onrender.com/api/opportunities`;
       if (filterType) queryUrl += `type=${filterType}&`;
       if (filterCategory) queryUrl += `category=${filterCategory}&`;
       if (filterMode) queryUrl += `mode=${filterMode}&`;

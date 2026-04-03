@@ -30,7 +30,7 @@ const ChatbotWidget = () => {
 
     try {
       const token = localStorage.getItem('token');
-      const res = await axios.post('http://172.20.10.4:5000/api/ai/chat',
+      const res = await axios.post('https://smart-internship-alert.onrender.com/api/ai/chat',
         { message: userMessage.content },
         { headers: { Authorization: `Bearer ${token}` } }
       );

@@ -19,14 +19,14 @@ export const AuthProvider = ({ children }) => {
   }, []);
 
   const login = async (email, password) => {
-    const res = await axios.post('http://172.20.10.4:5000/api/auth/login', { email, password });
+    const res = await axios.post('https://smart-internship-alert.onrender.com/api/auth/login', { email, password });
     localStorage.setItem('token', res.data.token);
     localStorage.setItem('user', JSON.stringify(res.data.user));
     setUser(res.data.user);
   };
 
   const register = async (name, email, password, interests) => {
-    const res = await axios.post('http://172.20.10.4:5000/api/auth/register', { name, email, password, interests });
+    const res = await axios.post('https://smart-internship-alert.onrender.com/api/auth/register', { name, email, password, interests });
     localStorage.setItem('token', res.data.token);
     localStorage.setItem('user', JSON.stringify(res.data.user));
     setUser(res.data.user);
