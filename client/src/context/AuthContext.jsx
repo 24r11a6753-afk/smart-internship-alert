@@ -3,12 +3,13 @@ import axios from 'axios';
 
 export const AuthContext = createContext();
 
+const API = "https://smart-internship-alert-1.onrender.com/api/auth";
+
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // Check if token exists in localStorage
     const token = localStorage.getItem('token');
     const storedUser = localStorage.getItem('user');
 
@@ -18,20 +19,42 @@ export const AuthProvider = ({ children }) => {
     setLoading(false);
   }, []);
 
+  // ✅ LOGIN FUNCTION
   const login = async (email, password) => {
-    const res = await axios.post('https://smart-internship-alert.onrender.com/api/auth/login', { email, password });
-    localStorage.setItem('token', res.data.token);
-    localStorage.setItem('user', JSON.stringify(res.data.user));
-    setUser(res.data.user);
+    try {
+      const res = await axios.post(`${API}/login`, { email, password });
+
+      localStorage.setItem('token', res.data.token);
+      localStorage.setItem('user', JSON.stringify(res.data.user));
+
+      setUser(res.data.user);
+    } catch (err) {
+      console.error(err);
+      alert("Login failed");
+    }
   };
 
+  // ✅ REGISTER FUNCTION
   const register = async (name, email, password, interests) => {
-    const res = await axios.post('https://smart-internship-alert.onrender.com/api/auth/register', { name, email, password, interests });
-    localStorage.setItem('token', res.data.token);
-    localStorage.setItem('user', JSON.stringify(res.data.user));
-    setUser(res.data.user);
+    try {
+      const res = await axios.post(`${API}/register`, {
+        name,
+        email,
+        password,
+        interests,
+      });
+
+      localStorage.setItem('token', res.data.token);
+      localStorage.setItem('user', JSON.stringify(res.data.user));
+
+      setUser(res.data.user);
+    } catch (err) {
+      console.error(err);
+      alert("Registration failed");
+    }
   };
 
+  // ✅ LOGOUT
   const logout = () => {
     localStorage.removeItem('token');
     localStorage.removeItem('user');
