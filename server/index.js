@@ -9,59 +9,70 @@ dotenv.config();
 
 const app = express();
 const server = http.createServer(app);
+
+// ✅ CORS (FRONTEND → BACKEND)
+const allowedOrigin = "https://smart-internship-alert-swrb.vercel.app";
+
+app.use(cors({
+  origin: allowedOrigin,
+  methods: ["GET", "POST", "PUT", "DELETE"],
+  credentials: true
+}));
+
+// ✅ IMPORTANT (BODY PARSER)
+app.use(express.json());
+
+// ✅ SOCKET.IO WITH CORS FIX
 const io = new Server(server, {
   cors: {
-    origin: '*', // For development
-    methods: ['GET', 'POST', 'PUT', 'DELETE'],
+    origin: allowedOrigin,
+    methods: ["GET", "POST"]
   },
 });
 
-app.use(cors());
-app.use(express.json());
-
+// ✅ MONGODB CONNECTION
 const PORT = process.env.PORT || 5000;
 const MONGODB_URI = process.env.MONGODB_URI;
 
 mongoose.connect(MONGODB_URI)
-  .then(() => console.log('Connected to MongoDB'))
-  .catch((err) => console.error('MongoDB connection error:', err));
+  .then(() => console.log('✅ Connected to MongoDB'))
+  .catch((err) => console.error('❌ MongoDB connection error:', err));
 
-// Socket.io connection logic
+// ✅ SOCKET EVENTS
 io.on('connection', (socket) => {
-  console.log('User connected:', socket.id);
+  console.log('🔌 User connected:', socket.id);
 
   socket.on('join_room', (userId) => {
     socket.join(userId);
-    console.log(`User ${userId} joined room`);
+    console.log(`👤 User ${userId} joined room`);
   });
 
   socket.on('disconnect', () => {
-    console.log('User disconnected');
+    console.log('❌ User disconnected');
   });
 });
 
-// Middleware to inject io into routes if needed
+// ✅ PASS SOCKET TO ROUTES
 app.use((req, res, next) => {
   req.io = io;
   next();
 });
 
-// Basic route
+// ✅ ROOT ROUTE
 app.get('/', (req, res) => {
   res.send('Smart Alert System API is running...');
 });
 
-// Routes will be imported here
+// ✅ ROUTES
 const authRoutes = require('./routes/auth');
 const opportunityRoutes = require('./routes/opportunities');
-// const adminRoutes = require('./routes/admin');
 const aiRoutes = require('./routes/ai');
 
 app.use('/api/auth', authRoutes);
 app.use('/api/opportunities', opportunityRoutes);
-// app.use('/api/admin', adminRoutes);
 app.use('/api/ai', aiRoutes);
 
+// ✅ START SERVER
 server.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}`);
+  console.log(`🚀 Server is running on port ${PORT}`);
 });
